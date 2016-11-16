@@ -9,7 +9,8 @@ RUN pip install -r requirements.txt
 COPY emis /emis
 COPY uwsgi.ini /
 COPY cmd.sh /
-COPY run_server.py /
+COPY server_flask.py /
+COPY server_wsgi.py /
 COPY test.py /
 
 

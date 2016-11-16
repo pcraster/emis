@@ -1,11 +1,15 @@
-from flask import Flask, jsonify, request
-from flask.json import dumps
+from flask import Flask
+from .configuration import configuration
 
 
-app = Flask(__name__)
-app.config.from_object("emis.default_settings")
+def create_app(
+        configuration_name):
+    app = Flask(__name__)
+    configuration_ = configuration[configuration_name]
+    app.config.from_object(configuration_)
+    configuration_.init_app(app)
 
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
-@app.route("/ping")
-def ping():
-    return jsonify(response="pong"), 200
+    return app

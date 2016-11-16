@@ -1,21 +1,32 @@
 import unittest
-from flask import json
-import emis
+from flask import current_app, json
+from emis import create_app
 
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        emis.app.config["TESTING"] = True
-        self.app = emis.app.test_client()
+        self.app = create_app("testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+
+        self.client = self.app.test_client()
 
 
     def tearDown(self):
-        del self.app
+        self.app_context.pop()
+
+
+    def test_app_exists(self):
+        self.assertFalse(current_app is None)
+
+
+    def test_app_is_testing(self):
+        self.assertTrue(current_app.config["TESTING"])
 
 
     def test_ping(self):
-        response = self.app.get("/ping")
+        response = self.client.get("/ping")
         data = response.data.decode("utf8")
         self.assertEqual(response.status_code, 200, data)
         data = json.loads(data)
