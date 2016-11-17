@@ -1,9 +1,9 @@
 import unittest
 from flask import current_app, json
-from emis import create_app
+from emis import create_app, db
 
 
-class TestCase(unittest.TestCase):
+class AppTest(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app("testing")
@@ -12,8 +12,12 @@ class TestCase(unittest.TestCase):
 
         self.client = self.app.test_client()
 
+        # db.create_all()
+
 
     def tearDown(self):
+        # db.session.remove()
+        # db.drop_all()
         self.app_context.pop()
 
 

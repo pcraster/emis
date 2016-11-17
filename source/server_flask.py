@@ -1,6 +1,6 @@
-from emis import create_app
+import os
+os.environ["EMIS_CONFIGURATION"] = "development"
+from server import app
 
-
-app = create_app("development")
 
 app.run(host="0.0.0.0")

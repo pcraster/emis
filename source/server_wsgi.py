@@ -1,4 +1,3 @@
-from emis import create_app
-
-
-app = create_app("production")
+import os
+os.environ["EMIS_CONFIGURATION"] = "production"
+from server import app
