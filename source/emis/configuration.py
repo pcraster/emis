@@ -1,5 +1,5 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+import tempfile
 
 
 class Configuration:
@@ -14,20 +14,23 @@ class Configuration:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
-    def init_app(app):
+    def init_app(
+            app):
         pass
 
 
 class DevelopmentConfiguration(Configuration):
 
     DEBUG = True
+    DEBUG_TOOLBAR_ENABLED = True
     FLASK_DEBUG_DISABLE_STRICT = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_DEV_DATABASE_URI") or \
-        "sqlite:///" + os.path.join(basedir, "data-dev.sqlite")
+        "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis-dev.sqlite")
 
     @staticmethod
-    def init_app(app):
+    def init_app(
+            app):
         Configuration.init_app(app)
 
         from flask_debug import Debug
@@ -39,13 +42,13 @@ class TestingConfiguration(Configuration):
     TESTING = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_TEST_DATABASE_URI") or \
-        "sqlite:///" + os.path.join(basedir, "data-test.sqlite")
+        "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis-test.sqlite")
 
 
 class ProductionConfiguration(Configuration):
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_DATABASE_URI") or \
-        "sqlite:///" + os.path.join(basedir, "data.sqlite")
+        "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis.sqlite")
 
 
 configuration = {
