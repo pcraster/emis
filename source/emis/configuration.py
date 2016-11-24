@@ -58,7 +58,7 @@ class ProductionConfiguration(Configuration):
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis.sqlite")
 
-    AGGREGATE_QUERY_PORT = 5000
+    AGGREGATE_QUERY_PORT = 9090
 
 
 configuration = {
