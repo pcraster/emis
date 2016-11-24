@@ -1,6 +1,14 @@
 import requests
-from flask import jsonify, request
+from flask import current_app, jsonify, request
 from . import api_blueprint
+
+
+def aggregate_queries_uri(
+        route):
+    return "http://{}:{}/{}".format(
+        current_app.config["AGGREGATE_QUERY_HOST"],
+        current_app.config["AGGREGATE_QUERY_PORT"],
+        route)
 
 
 # - Post a query
@@ -9,7 +17,8 @@ from . import api_blueprint
     "/aggregate_queries",
     methods=["GET", "POST"])
 def aggregate_queries_all():
-    uri = "http://aggregate_query:5000/aggregate_queries"
+
+    uri = aggregate_queries_uri("aggregate_queries")
 
     if request.method == "GET":
         # TODO This requires the admin API key!
@@ -27,7 +36,8 @@ def aggregate_queries_all():
 def aggregate_query(
         user_id,
         query_id):
-    uri = "http://aggregate_query:5000/aggregate_queries/{}/{}".format(
+
+    uri = aggregate_queries_uri("aggregate_queries/{}/{}".format(
         user_id, query_id)
     response = requests.get(uri)
 
@@ -40,7 +50,7 @@ def aggregate_query(
     methods=["GET"])
 def aggregate_queries(
         user_id):
-    uri = "http://aggregate_query:5000/aggregate_queries/{}".format(user_id)
+    uri = aggregate_queries_uri("aggregate_queries/{}".format(user_id)
     response = requests.get(uri)
 
     return response.text, response.status_code
