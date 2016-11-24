@@ -38,7 +38,7 @@ def aggregate_query(
         query_id):
 
     uri = aggregate_queries_uri("aggregate_queries/{}/{}".format(
-        user_id, query_id)
+        user_id, query_id))
     response = requests.get(uri)
 
     return response.text, response.status_code
@@ -50,7 +50,7 @@ def aggregate_query(
     methods=["GET"])
 def aggregate_queries(
         user_id):
-    uri = aggregate_queries_uri("aggregate_queries/{}".format(user_id)
+    uri = aggregate_queries_uri("aggregate_queries/{}".format(user_id))
     response = requests.get(uri)
 
     return response.text, response.status_code
