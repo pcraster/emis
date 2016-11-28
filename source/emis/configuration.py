@@ -13,6 +13,7 @@ class Configuration:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    AGGREGATE_METHOD_HOST = "aggregate_method"
     AGGREGATE_QUERY_HOST = "aggregate_query"
 
 
@@ -31,6 +32,7 @@ class DevelopmentConfiguration(Configuration):
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_DEV_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis-dev.sqlite")
 
+    AGGREGATE_METHOD_PORT = 5000
     AGGREGATE_QUERY_PORT = 5000
 
 
@@ -50,6 +52,7 @@ class TestingConfiguration(Configuration):
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_TEST_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis-test.sqlite")
 
+    AGGREGATE_METHOD_PORT = 5000
     AGGREGATE_QUERY_PORT = 5000
 
 
@@ -58,6 +61,7 @@ class ProductionConfiguration(Configuration):
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis.sqlite")
 
+    AGGREGATE_METHOD_PORT = 9090
     AGGREGATE_QUERY_PORT = 9090
 
 

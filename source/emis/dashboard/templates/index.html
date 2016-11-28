@@ -29,5 +29,53 @@
             </p>
             -->
         </div>
-     </div>
+
+        <h2>Aggregate methods</h2>
+        <table class="table">
+            <thead>
+                <th>Name</td>
+                <th>Links</td>
+                <th>Raw</td>
+            </thead>
+            <tbody>
+    {% for method in methods.aggregate_methods %}
+                <tr>
+                    <td>{{ method.name }}</td>
+                    <td>
+                        <a href="{{ method._links.self }}">self</a>,
+                        <a href="{{ method._links.collection }}">collection</a>
+                    </td>
+                    <td>{{ method }}</td>
+                </tr>
+    {% endfor %}
+            <tbody>
+        </table>
+
+
+        <h2>Aggregate queries</h2>
+        <table class="table">
+            <thead>
+                <th>User</td>
+                <th>Model</td>
+                <th>Status</td>
+                <th>Links</td>
+                <th>Raw</td>
+            </thead>
+            <tbody>
+    {% for query in queries.aggregate_queries %}
+                <tr>
+                    <td>{{ query.user }}</td>
+                    <td>{{ query.model }}</td>
+                    <td>{{ query.status }}</td>
+                    <td>
+                        <a href="{{ query._links.self }}">self</a>,
+                        <a href="{{ query._links.collection }}">collection</a>
+                    </td>
+                    <td>{{ query }}</td>
+                </tr>
+    {% endfor %}
+            <tbody>
+        </table>
+
+    </div>
 {% endblock %}

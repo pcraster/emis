@@ -1,5 +1,5 @@
 import requests
-from flask import current_app, jsonify, request
+from flask import current_app, request
 from . import api_blueprint
 
 
