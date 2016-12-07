@@ -14,13 +14,21 @@ def aggregate_queries_uri(
 @dashboard.route("/")
 def dashboard():
 
-    # TODO Handle errors.
-    uri = aggregate_queries_uri("aggregate_methods")
-    response = requests.get(uri)
-    methods = response.json()
+    methods = []
+    queries = []
 
-    uri = aggregate_queries_uri("aggregate_queries")
-    response = requests.get(uri)
-    queries = response.json()
+    try:
+        uri = aggregate_queries_uri("aggregate_methods")
+        response = requests.get(uri)
+        methods = response.json()
+    except Exception as exception:
+        flash("error contacting aggregate_methods: {}".format(exception))
+
+    try:
+        uri = aggregate_queries_uri("aggregate_queries")
+        response = requests.get(uri)
+        queries = response.json()
+    except Exception as exception:
+        flash("error contacting aggregate_queries: {}".format(exception))
 
     return render_template("index.html", methods=methods, queries=queries)

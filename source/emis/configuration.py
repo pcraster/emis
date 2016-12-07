@@ -1,4 +1,5 @@
 import os
+import ssl
 import tempfile
 
 
@@ -15,6 +16,8 @@ class Configuration:
 
     AGGREGATE_METHOD_HOST = "aggregate_method"
     AGGREGATE_QUERY_HOST = "aggregate_query"
+
+    SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 
 
     @staticmethod
@@ -44,6 +47,12 @@ class DevelopmentConfiguration(Configuration):
         from flask_debug import Debug
         Debug(app)
 
+        DevelopmentConfiguration.SSL_CONTEXT.load_cert_chain(
+            os.environ.get("EMIS_SSL_CERTIFICATE")
+                or "/ssl/localhost.crt",
+            os.environ.get("EMIS_SSL_KEY")
+                or "/ssl/localhost.key")
+
 
 class TestingConfiguration(Configuration):
 
@@ -56,13 +65,37 @@ class TestingConfiguration(Configuration):
     AGGREGATE_QUERY_PORT = 5000
 
 
+    @staticmethod
+    def init_app(
+            app):
+        Configuration.init_app(app)
+
+        TestingConfiguration.SSL_CONTEXT.load_cert_chain(
+            os.environ.get("EMIS_SSL_CERTIFICATE")
+                or "/ssl/localhost.crt",
+            os.environ.get("EMIS_SSL_KEY")
+                or "/ssl/localhost.key")
+
+
 class ProductionConfiguration(Configuration):
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis.sqlite")
 
-    AGGREGATE_METHOD_PORT = 9090
-    AGGREGATE_QUERY_PORT = 9090
+    AGGREGATE_METHOD_PORT = 3031
+    AGGREGATE_QUERY_PORT = 3031
+
+
+    @staticmethod
+    def init_app(
+            app):
+        Configuration.init_app(app)
+
+        ProductionConfiguration.SSL_CONTEXT.load_cert_chain(
+            os.environ.get("EMIS_SSL_CERTIFICATE")
+                or "/ssl/emisdev_geo_uu_nl.crt",
+            os.environ.get("EMIS_SSL_KEY")
+                or "/ssl/emisdev_geo_uu_nl.key")
 
 
 configuration = {
