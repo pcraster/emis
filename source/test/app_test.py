@@ -1,6 +1,6 @@
 import unittest
 from flask import current_app, json
-from emis import create_app, db
+from emis import create_app
 
 
 class AppTest(unittest.TestCase):
