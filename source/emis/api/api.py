@@ -11,6 +11,9 @@ def api():
                 },
                 "aggregate_queries": {
                     "route": "/aggregate_queries"
+                },
+                "domains": {
+                    "route": "/domains"
                 }
             }
         }), 200

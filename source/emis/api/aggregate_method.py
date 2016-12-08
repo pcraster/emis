@@ -6,8 +6,8 @@ from . import api_blueprint
 def aggregate_methods_uri(
         route):
     return "http://{}:{}/{}".format(
-        current_app.config["AGGREGATE_METHOD_HOST"],
-        current_app.config["AGGREGATE_METHOD_PORT"],
+        current_app.config["EMIS_AGGREGATE_METHOD_HOST"],
+        current_app.config["EMIS_AGGREGATE_METHOD_PORT"],
         route)
 
 

@@ -33,6 +33,9 @@ class ApiTest(unittest.TestCase):
                     },
                     "aggregate_queries": {
                         "route": "/aggregate_queries"
+                    },
+                    "domains": {
+                        "route": "/domains"
                     }
                 }
             })
