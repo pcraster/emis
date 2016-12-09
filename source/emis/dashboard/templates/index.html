@@ -30,6 +30,7 @@
             -->
         </div>
 
+<!--
         <h2>Aggregate methods</h2>
         <table class="table">
             <thead>
@@ -50,7 +51,31 @@
     {% endfor %}
             <tbody>
         </table>
+-->
 
+        <h2>Properties</h2>
+        <table class="table">
+            <thead>
+                <th>Name</td>
+                <th>Pathname</td>
+                <th>Links</td>
+                <th>Raw</td>
+            </thead>
+            <tbody>
+    {% for property in properties.properties %}
+                <tr>
+                    <td>{{ property.name }}</td>
+                    <td>{{ property.pathname }}</td>
+                    <td>
+                        <a href="{{ property._links.self }}">self</a>,
+                        <a href="{{ property._links.collection }}">
+                            collection</a>
+                    </td>
+                    <td>{{ property }}</td>
+                </tr>
+    {% endfor %}
+            <tbody>
+        </table>
 
         <h2>Domains</h2>
         <table class="table">

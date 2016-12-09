@@ -27,11 +27,20 @@ def domains_uri(
         route)
 
 
+def properties_uri(
+        route):
+    return "http://{}:{}/{}".format(
+        current_app.config["EMIS_PROPERTY_HOST"],
+        current_app.config["EMIS_PROPERTY_PORT"],
+        route)
+
+
 @dashboard.route("/")
 def dashboard():
 
     domains = []
     methods = []
+    properties = []
     queries = []
 
     try:
@@ -44,8 +53,8 @@ def dashboard():
 
     try:
         uri = domains_uri("domains")
-        domains = requests.get(uri)
-        queries = domains.json()
+        response = requests.get(uri)
+        domains = response.json()
     except Exception as exception:
         flash("error contacting domain service: {}".format(exception))
 
@@ -57,7 +66,15 @@ def dashboard():
         flash("error contacting aggregate queries service: {}".format(
             exception))
 
+    try:
+        uri = properties_uri("properties")
+        response = requests.get(uri)
+        properties = response.json()
+    except Exception as exception:
+        flash("error contacting properties service: {}".format(exception))
+
     return render_template("index.html",
         methods=methods,
         domains=domains,
+        properties=properties,
         queries=queries)

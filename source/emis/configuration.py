@@ -14,9 +14,14 @@ class Configuration:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    UPLOADS_DEFAULT_DEST = \
+        os.environ.get("EMIS_UPLOADS_DEFAULT_DEST") or \
+        tempfile.gettempdir()
+
     EMIS_AGGREGATE_METHOD_HOST = "aggregate_method"
     EMIS_AGGREGATE_QUERY_HOST = "aggregate_query"
     EMIS_DOMAIN_HOST = "domain"
+    EMIS_PROPERTY_HOST = "property"
     EMIS_SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
 
 
@@ -38,6 +43,7 @@ class DevelopmentConfiguration(Configuration):
     EMIS_AGGREGATE_METHOD_PORT = 5000
     EMIS_AGGREGATE_QUERY_PORT = 5000
     EMIS_DOMAIN_PORT = 5000
+    EMIS_PROPERTY_PORT = 5000
 
 
     @staticmethod
@@ -63,6 +69,7 @@ class TestingConfiguration(Configuration):
     EMIS_AGGREGATE_METHOD_PORT = 5000
     EMIS_AGGREGATE_QUERY_PORT = 5000
     EMIS_DOMAIN_PORT = 5000
+    EMIS_PROPERTY_PORT = 5000
 
 
     @staticmethod
@@ -85,6 +92,7 @@ class ProductionConfiguration(Configuration):
     EMIS_AGGREGATE_METHOD_PORT = 3031
     EMIS_AGGREGATE_QUERY_PORT = 3031
     EMIS_DOMAIN_PORT = 3031
+    EMIS_PROPERTY_PORT = 3031
 
 
     @staticmethod

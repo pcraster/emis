@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+from flask_uploads import configure_uploads, patch_request_class, UploadSet
 from .configuration import configuration
 
 
@@ -13,6 +14,9 @@ def app_errorhandler(
     return response, exception.code
 
 
+uploaded_domains = UploadSet(
+    name="domain",
+    extensions=("csv"))
 db = SQLAlchemy()
 
 
@@ -51,6 +55,9 @@ def create_app(
 
     Bootstrap(app)
 
+    configure_uploads(app, (uploaded_domains,))
+    # Limit uploads to 32 Mb.
+    patch_request_class(app, 32 * 1024 * 1024)
 
     db.init_app(app)
 

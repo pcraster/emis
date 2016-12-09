@@ -14,6 +14,9 @@ def api():
                 },
                 "domains": {
                     "route": "/domains"
-                }
+                },
+                "properties": {
+                    "route": "/properties"
+                },
             }
         }), 200

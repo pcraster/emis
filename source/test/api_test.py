@@ -36,6 +36,9 @@ class ApiTest(unittest.TestCase):
                     },
                     "domains": {
                         "route": "/domains"
+                    },
+                    "properties": {
+                        "route": "/properties"
                     }
                 }
             })
