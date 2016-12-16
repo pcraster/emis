@@ -7,6 +7,7 @@ from .configuration import configuration
 
 def app_errorhandler(
         exception):
+    print("{}: {}".format(type(exception), exception))
     response = jsonify({
             "status_code": exception.code,
             "message": exception.description,
