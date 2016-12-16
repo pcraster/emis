@@ -20,17 +20,11 @@ def scan_properties():
     except Exception as exception:
         raise BadRequest(exception)
 
-    print(current_app.config["EMIS_RABBITMQ_DEFAULT_USER"])
-    print(current_app.config["EMIS_RABBITMQ_DEFAULT_PASS"])
-    print(current_app.config["EMIS_RABBITMQ_DEFAULT_VHOST"])
-
     # Post message in rabbitmq and be done with it.
     credentials = pika.PlainCredentials(
         current_app.config["EMIS_RABBITMQ_DEFAULT_USER"],
         current_app.config["EMIS_RABBITMQ_DEFAULT_PASS"]
     )
-
-    print(credentials)
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(
         host="rabbitmq",
