@@ -106,7 +106,8 @@
             <thead>
                 <th>User</td>
                 <th>Model</td>
-                <th>Status</td>
+                <th>Edit status</td>
+                <th>Execute status</td>
                 <th>Links</td>
                 <th>Raw</td>
             </thead>
@@ -115,7 +116,8 @@
                 <tr>
                     <td>{{ query.user }}</td>
                     <td>{{ query.model }}</td>
-                    <td>{{ query.status }}</td>
+                    <td>{{ query.edit_status }}</td>
+                    <td>{{ query.execute_status }}</td>
                     <td>
                         <a href="{{ query._links.self }}">self</a>,
                         <a href="{{ query._links.collection }}">collection</a>

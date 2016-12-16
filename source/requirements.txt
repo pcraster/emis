@@ -5,5 +5,5 @@ flask-httpauth==3.2.1
 flask-sqlalchemy==2.1
 flask-uploads==0.2.1
 pika==0.10.0
-requests==2.11.1
+requests==2.11
 uwsgi==2.0.13.1

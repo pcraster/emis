@@ -63,8 +63,8 @@ def create_app(
 
 
     # Attach routes and custom error pages.
-    from .admin import admin as admin_blueprint
-    app.register_blueprint(admin_blueprint)
+    from .admin import admin_blueprint
+    app.register_blueprint(admin_blueprint, url_prefix="/admin")
 
     from .api import api_blueprint
     app.register_blueprint(api_blueprint)

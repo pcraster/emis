@@ -1,10 +1,12 @@
 import requests
 from flask import current_app, request
+import pika
 from . import api_blueprint
 
 
 def aggregate_queries_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_AGGREGATE_QUERY_HOST"],
         current_app.config["EMIS_AGGREGATE_QUERY_PORT"],
@@ -25,6 +27,45 @@ def aggregate_queries_all():
         response = requests.get(uri)
     elif request.method == "POST":
         response = requests.post(uri, json=request.get_json())
+
+        # If the query's 'edit_status' is 'final', a message must be posted
+        # that the query should be executed.
+
+        if response.status_code == 201:
+            query_dict = response.json()["aggregate_query"]
+
+            if query_dict["edit_status"] == "final":
+                query_uri = aggregate_queries_uri(query_dict["_links"]["self"])
+
+                # Mark query's execute_status as 'queued'.
+                payload = {
+                    "execute_status": "queued"
+                }
+                response = requests.patch(query_uri, json=payload)
+
+                if response.status_code == 200:
+
+                    # Post message in rabbitmq and be done with it.
+                    credentials = pika.PlainCredentials("blah", "blih")
+
+                    connection = pika.BlockingConnection(
+                        pika.ConnectionParameters(
+                            host="rabbitmq",
+                            credentials=credentials,
+                            # Keep trying for 8 minutes.
+                            connection_attempts=100,
+                            retry_delay=5  # Seconds
+                    ))
+                    channel = connection.channel()
+                    channel.queue_declare(
+                        queue="execute_query")
+                    channel.basic_publish(
+                        exchange="",
+                        routing_key="execute_query",
+                        body="{}".format(query_uri)
+                    )
+                    connection.close()
+
 
     return response.text, response.status_code
 
