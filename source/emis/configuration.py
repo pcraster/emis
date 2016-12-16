@@ -23,6 +23,9 @@ class Configuration:
     EMIS_DOMAIN_HOST = "domain"
     EMIS_PROPERTY_HOST = "property"
     EMIS_SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+    EMIS_RABBITMQ_DEFAULT_USER = os.environ.get("EMIS_RABBITMQ_DEFAULT_USER")
+    EMIS_RABBITMQ_DEFAULT_PASS = os.environ.get("EMIS_RABBITMQ_DEFAULT_PASS")
+    EMIS_RABBITMQ_DEFAULT_VHOST = os.environ.get("EMIS_RABBITMQ_DEFAULT_VHOST")
 
 
     @staticmethod

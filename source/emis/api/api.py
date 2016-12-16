@@ -6,9 +6,9 @@ from . import api_blueprint
 def api():
     return jsonify({
             "resources": {
-                "aggregate_methods": {
-                    "route": "/aggregate_methods"
-                },
+                # "aggregate_methods": {
+                #     "route": "/aggregate_methods"
+                # },
                 "aggregate_queries": {
                     "route": "/aggregate_queries"
                 },

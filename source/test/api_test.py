@@ -28,9 +28,9 @@ class ApiTest(unittest.TestCase):
 
         self.assertEqual(data, {
                 "resources": {
-                    "aggregate_methods": {
-                        "route": "/aggregate_methods"
-                    },
+                    # "aggregate_methods": {
+                    #     "route": "/aggregate_methods"
+                    # },
                     "aggregate_queries": {
                         "route": "/aggregate_queries"
                     },

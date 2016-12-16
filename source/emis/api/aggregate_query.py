@@ -46,11 +46,16 @@ def aggregate_queries_all():
                 if response.status_code == 200:
 
                     # Post message in rabbitmq and be done with it.
-                    credentials = pika.PlainCredentials("blah", "blih")
+                    credentials = pika.PlainCredentials(
+                        current_app.config["EMIS_RABBITMQ_DEFAULT_USER"],
+                        current_app.config["EMIS_RABBITMQ_DEFAULT_PASS"]
+                    )
 
                     connection = pika.BlockingConnection(
                         pika.ConnectionParameters(
                             host="rabbitmq",
+                            virtual_host=current_app.config[
+                                "EMIS_RABBITMQ_DEFAULT_VHOST"],
                             credentials=credentials,
                             # Keep trying for 8 minutes.
                             connection_attempts=100,

@@ -3,12 +3,12 @@ from flask import current_app, flash, jsonify, render_template, url_for
 from . import dashboard
 
 
-def aggregate_methods_uri(
-        route):
-    return "http://{}:{}/{}".format(
-        current_app.config["EMIS_AGGREGATE_METHOD_HOST"],
-        current_app.config["EMIS_AGGREGATE_METHOD_PORT"],
-        route)
+# def aggregate_methods_uri(
+#         route):
+#     return "http://{}:{}/{}".format(
+#         current_app.config["EMIS_AGGREGATE_METHOD_HOST"],
+#         current_app.config["EMIS_AGGREGATE_METHOD_PORT"],
+#         route)
 
 
 def aggregate_queries_uri(
@@ -39,17 +39,17 @@ def properties_uri(
 def dashboard():
 
     domains = []
-    methods = []
+    # methods = []
     properties = []
     queries = []
 
-    try:
-        uri = aggregate_methods_uri("aggregate_methods")
-        response = requests.get(uri)
-        methods = response.json()
-    except Exception as exception:
-        flash("error contacting aggregate methods service: {}".format(
-            exception))
+    # try:
+    #     uri = aggregate_methods_uri("aggregate_methods")
+    #     response = requests.get(uri)
+    #     methods = response.json()
+    # except Exception as exception:
+    #     flash("error contacting aggregate methods service: {}".format(
+    #         exception))
 
     try:
         uri = domains_uri("domains")
@@ -74,7 +74,7 @@ def dashboard():
         flash("error contacting properties service: {}".format(exception))
 
     return render_template("index.html",
-        methods=methods,
+        # methods=methods,
         domains=domains,
         properties=properties,
         queries=queries)
