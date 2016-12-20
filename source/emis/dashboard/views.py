@@ -42,6 +42,7 @@ def dashboard():
     # methods = []
     properties = []
     queries = []
+    results = []
 
     # try:
     #     uri = aggregate_methods_uri("aggregate_methods")
@@ -62,6 +63,10 @@ def dashboard():
         uri = aggregate_queries_uri("aggregate_queries")
         response = requests.get(uri)
         queries = response.json()
+
+        uri = aggregate_queries_uri("aggregate_query_results")
+        response = requests.get(uri)
+        results = response.json()
     except Exception as exception:
         flash("error contacting aggregate queries service: {}".format(
             exception))
@@ -77,4 +82,5 @@ def dashboard():
         # methods=methods,
         domains=domains,
         properties=properties,
-        queries=queries)
+        queries=queries,
+        results=results)

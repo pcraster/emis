@@ -18,6 +18,10 @@ class Configuration:
         os.environ.get("EMIS_UPLOADS_DEFAULT_DEST") or \
         tempfile.gettempdir()
 
+    EMIS_RESULT_DATA = \
+        os.environ.get("EMIS_RESULT_DATA") or \
+        tempfile.gettempdir()
+
     EMIS_AGGREGATE_METHOD_HOST = "aggregate_method"
     EMIS_AGGREGATE_QUERY_HOST = "aggregate_query"
     EMIS_DOMAIN_HOST = "domain"
