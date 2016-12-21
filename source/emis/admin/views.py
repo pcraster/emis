@@ -1,3 +1,5 @@
+import json
+import sys
 from flask import current_app, jsonify, request
 import pika
 from . import admin_blueprint
@@ -13,12 +15,8 @@ def ping():
     methods=["POST"])
 def scan_properties():
 
-    dict_ = request.get_json()
-
-    try:
-        pathname = dict_["pathname"]
-    except Exception as exception:
-        raise BadRequest(exception)
+    json_as_dict = request.get_json()
+    message = json.dump(json_as_dict)
 
     # Post message in rabbitmq and be done with it.
     credentials = pika.PlainCredentials(
@@ -40,9 +38,11 @@ def scan_properties():
     channel.basic_publish(
         exchange="",
         routing_key="scan",
-        body="{}".format(pathname)
+        body=message
     )
-    print("sent {}".format(pathname))
+
+    sys.stdout.write("sent {}".format(message))
+    sys.stdout.flush()
     connection.close()
 
 
