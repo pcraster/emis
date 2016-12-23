@@ -32,7 +32,7 @@
 
 {#
         <h2>Aggregate methods</h2>
-        <table class="table">
+        <table class="table table-condensed table-striped">
             <thead>
                 <th>Name</td>
                 <th>Links</td>
@@ -54,16 +54,26 @@
 #}
 
         <h2>Properties</h2>
-        <table class="table">
+        <table class="table table-condensed table-striped">
             <thead>
+                <th>Raw</td>
                 <th>Name</td>
                 <th>Pathname</td>
                 <th>Links</td>
-                <th>Raw</td>
             </thead>
             <tbody>
     {% for property in properties.properties %}
                 <tr>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ property | pprint }}</pre>
+                        </div>
+                    </td>
                     <td>{{ property.name }}</td>
                     <td>{{ property.pathname }}</td>
                     <td>
@@ -71,30 +81,38 @@
                         <a href="{{ property._links.collection }}">
                             collection</a>
                     </td>
-                    <td>{{ property }}</td>
                 </tr>
     {% endfor %}
             <tbody>
         </table>
 
         <h2>Domains</h2>
-        <table class="table">
+        <table class="table table-condensed table-striped">
             <thead>
+                <th>Raw</td>
                 <th>Name</td>
                 <th>Pathname</td>
                 <th>Links</td>
-                <th>Raw</td>
             </thead>
             <tbody>
     {% for domain in domains.domains %}
                 <tr>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ domain | pprint }}</pre>
+                        </div>
+                    </td>
                     <td>{{ domain.name }}</td>
                     <td>{{ domain.pathname }}</td>
                     <td>
                         <a href="{{ domain._links.self }}">self</a>,
                         <a href="{{ domain._links.collection }}">collection</a>
                     </td>
-                    <td>{{ domain }}</td>
                 </tr>
     {% endfor %}
             <tbody>
@@ -102,19 +120,34 @@
 
 
         <h2>Aggregate queries</h2>
-        <table class="table">
+        <table class="table table-condensed">
             <thead>
+                <th>Raw</td>
                 <th>Id</td>
                 <th>User</td>
                 <th>Model</td>
                 <th>Edit status</td>
                 <th>Execute status</td>
                 <th>Links</td>
-                <th>Raw</td>
             </thead>
             <tbody>
     {% for query in queries.aggregate_queries %}
-                <tr>
+                <tr
+                    {% if query.execute_status == "pending" %} class="info"
+                    {% elif query.execute_status == "queued" %} class="info"
+                    {% elif query.execute_status == "succeeded" %} class="success"
+                    {% elif query.execute_status == "failed" %} class="danger"
+                    {% endif %}>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ query | pprint }}</pre>
+                        </div>
+                    </td>
                     <td>{{ query.id }}</td>
                     <td>{{ query.user }}</td>
                     <td>{{ query.model }}</td>
@@ -124,7 +157,6 @@
                         <a href="{{ query._links.self }}">self</a>,
                         <a href="{{ query._links.collection }}">collection</a>
                     </td>
-                    <td>{{ query }}</td>
                 </tr>
     {% endfor %}
             <tbody>
@@ -132,23 +164,32 @@
 
 
         <h2>Aggregate query results</h2>
-        <table class="table">
+        <table class="table table-condensed table-striped">
             <thead>
+                <th>Raw</td>
                 <th>Id</td>
                 <th>Uri</td>
                 <th>Links</td>
-                <th>Raw</td>
             </thead>
             <tbody>
     {% for result in results.aggregate_query_results %}
                 <tr>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ result | pprint }}</pre>
+                        </div>
+                    </td>
                     <td>{{ result.id }}</td>
                     <td><a href="/aggregate_query_results/{{ result.uri }}">uri</a></td>
                     <td>
                         <a href="{{ result._links.self }}">self</a>,
                         <a href="{{ result._links.collection }}">collection</a>
                     </td>
-                    <td>{{ result }}</td>
                 </tr>
     {% endfor %}
             <tbody>
