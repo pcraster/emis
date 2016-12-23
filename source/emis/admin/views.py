@@ -16,7 +16,7 @@ def ping():
 def scan_properties():
 
     json_as_dict = request.get_json()
-    message = json.dump(json_as_dict)
+    message = json.dumps(json_as_dict)
 
     # Post message in rabbitmq and be done with it.
     credentials = pika.PlainCredentials(
@@ -41,7 +41,7 @@ def scan_properties():
         body=message
     )
 
-    sys.stdout.write("sent {}".format(message))
+    sys.stdout.write("sent {}\n".format(message))
     sys.stdout.flush()
     connection.close()
 
