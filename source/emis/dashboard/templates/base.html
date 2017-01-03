@@ -11,6 +11,11 @@
     >
 {% endblock %}
 
+{% block scripts %}
+    {{super()}}
+    <script src="{{url_for('dashboard.static', filename='emis.js')}}"></script>
+{% endblock %}
+
 {% block navbar %}
 {# {{nav.frontend_top.render()}} #}
 {% endblock %}

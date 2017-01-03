@@ -74,8 +74,26 @@
                             <pre class="dropdown-menu">{{ property | pprint }}</pre>
                         </div>
                     </td>
-                    <td>{{ property.name }}</td>
-                    <td>{{ property.pathname }}</td>
+                    <td
+                        data-toggle="tooltip"
+                        data-placement="auto"
+                        title="{{ property.name }}">
+                        {{ property.name | format_property_name }}
+                    </td>
+                    <!--
+                    <td
+                        data-toggle="popover"
+                        data-placement="auto"
+                        data-container="body"
+                        title="pathname"
+                        data-content="{{ property.pathname }}">
+                    -->
+                    <td
+                        data-toggle="tooltip"
+                        data-placement="auto"
+                        title="{{ property.pathname }}">
+                        {{ property.pathname | format_pathname }}
+                    </td>
                     <td>
                         <a href="{{ property._links.self }}">self</a>,
                         <a href="{{ property._links.collection }}">
