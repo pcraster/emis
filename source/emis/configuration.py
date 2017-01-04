@@ -25,6 +25,7 @@ class Configuration:
     EMIS_AGGREGATE_METHOD_HOST = "aggregate_method"
     EMIS_AGGREGATE_QUERY_HOST = "aggregate_query"
     EMIS_DOMAIN_HOST = "domain"
+    EMIS_LOG_HOST = "log"
     EMIS_PROPERTY_HOST = "property"
     EMIS_SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     EMIS_RABBITMQ_DEFAULT_USER = os.environ.get("EMIS_RABBITMQ_DEFAULT_USER")
@@ -50,6 +51,7 @@ class DevelopmentConfiguration(Configuration):
     EMIS_AGGREGATE_METHOD_PORT = 5000
     EMIS_AGGREGATE_QUERY_PORT = 5000
     EMIS_DOMAIN_PORT = 5000
+    EMIS_LOG_PORT = 5000
     EMIS_PROPERTY_PORT = 5000
 
 
@@ -76,6 +78,7 @@ class TestingConfiguration(Configuration):
     EMIS_AGGREGATE_METHOD_PORT = 5000
     EMIS_AGGREGATE_QUERY_PORT = 5000
     EMIS_DOMAIN_PORT = 5000
+    EMIS_LOG_PORT = 5000
     EMIS_PROPERTY_PORT = 5000
 
 
@@ -99,6 +102,7 @@ class ProductionConfiguration(Configuration):
     EMIS_AGGREGATE_METHOD_PORT = 3031
     EMIS_AGGREGATE_QUERY_PORT = 3031
     EMIS_DOMAIN_PORT = 3031
+    EMIS_LOG_PORT = 3031
     EMIS_PROPERTY_PORT = 3031
 
 

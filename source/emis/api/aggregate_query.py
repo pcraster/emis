@@ -1,3 +1,7 @@
+import datetime
+import json
+import sys
+import traceback
 import requests
 from flask import current_app, request
 import pika
@@ -13,6 +17,56 @@ def aggregate_queries_uri(
         route)
 
 
+def log(
+        message,
+        priority="low",
+        severity="non_critical"):
+
+    try:
+
+        payload = {
+            "timestamp": datetime.datetime.utcnow().isoformat(),
+            "priority": priority,
+            "severity": severity,
+            "message": message
+        }
+
+        # Post message in rabbitmq and be done with it.
+        credentials = pika.PlainCredentials(
+            current_app.config["EMIS_RABBITMQ_DEFAULT_USER"],
+            current_app.config["EMIS_RABBITMQ_DEFAULT_PASS"]
+        )
+
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                host="rabbitmq",
+                virtual_host=current_app.config[
+                    "EMIS_RABBITMQ_DEFAULT_VHOST"],
+                credentials=credentials)
+        )
+        channel = connection.channel()
+
+        properties = pika.BasicProperties()
+        properties.content_type = "application/json"
+        properties.durable = False
+
+        channel.basic_publish(
+            exchange="alerts",
+            properties=properties,
+            routing_key="{}.{}".format(priority, severity),
+            body=json.dumps(payload)
+        )
+        connection.close()
+
+    except Exception as exception:
+
+        sys.stderr.write("Error while sending log message to broker\n")
+        sys.stderr.write("Log message: {}\n".format(message))
+        sys.stderr.write("Error message: {}\n".format(str(exception)))
+        sys.stderr.write("{}\n".format(traceback.format_exc(exception)));
+        sys.stderr.flush()
+
+
 # - Post a query
 # - Get collection of all queries
 @api_blueprint.route(
@@ -23,9 +77,11 @@ def aggregate_queries_all():
     uri = aggregate_queries_uri("aggregate_queries")
 
     if request.method == "GET":
+        log("get aggregate queries")
         # TODO This requires the admin API key!
         response = requests.get(uri)
     elif request.method == "POST":
+        log("post aggregate query")
         response = requests.post(uri, json=request.get_json())
 
         # If the query's 'edit_status' is 'final', a message must be posted
@@ -83,6 +139,8 @@ def aggregate_query(
         user_id,
         query_id):
 
+    log("get aggregate query {} for user {}".format(query_id, user_id))
+
     uri = aggregate_queries_uri("aggregate_queries/{}/{}".format(
         user_id, query_id))
     response = requests.get(uri)
@@ -96,6 +154,9 @@ def aggregate_query(
     methods=["GET"])
 def aggregate_queries(
         user_id):
+
+    log("get aggregate queries user {}".format(user_id))
+
     uri = aggregate_queries_uri("aggregate_queries/{}".format(user_id))
     response = requests.get(uri)
 

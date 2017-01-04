@@ -27,6 +27,14 @@ def domains_uri(
         route)
 
 
+def logs_uri(
+        route):
+    return "http://{}:{}/{}".format(
+        current_app.config["EMIS_LOG_HOST"],
+        current_app.config["EMIS_LOG_PORT"],
+        route)
+
+
 def properties_uri(
         route):
     return "http://{}:{}/{}".format(
@@ -39,6 +47,7 @@ def properties_uri(
 def dashboard():
 
     domains = []
+    logs = []
     # methods = []
     properties = []
     queries = []
@@ -78,9 +87,18 @@ def dashboard():
     except Exception as exception:
         flash("error contacting properties service: {}".format(exception))
 
+    try:
+        uri = logs_uri("logs")
+        response = requests.get(uri)
+        logs = response.json()
+    except Exception as exception:
+        flash("error contacting log service: {}".format(exception))
+
+
     return render_template("index.html",
         # methods=methods,
         domains=domains,
         properties=properties,
         queries=queries,
-        results=results)
+        results=results,
+        logs=logs)

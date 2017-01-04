@@ -126,7 +126,12 @@
                         </div>
                     </td>
                     <td>{{ domain.name }}</td>
-                    <td>{{ domain.pathname }}</td>
+                    <td
+                        data-toggle="tooltip"
+                        data-placement="auto"
+                        title="{{ domain.pathname }}">
+                        {{ domain.pathname | format_pathname }}
+                    </td>
                     <td>
                         <a href="{{ domain._links.self }}">self</a>,
                         <a href="{{ domain._links.collection }}">collection</a>
@@ -207,6 +212,55 @@
                     <td>
                         <a href="{{ result._links.self }}">self</a>,
                         <a href="{{ result._links.collection }}">collection</a>
+                    </td>
+                </tr>
+    {% endfor %}
+            <tbody>
+        </table>
+
+
+        <h2>Event log</h2>
+        <table class="table table-condensed table-striped">
+            <thead>
+                <th>Raw</td>
+                <th>Timestamp</td>
+                <th>Priority</td>
+                <th>Severity</td>
+                <th>Message</td>
+                <th>Links</td>
+            </thead>
+            <tbody>
+    {% for record in logs.logs %}
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ record | pprint }}</pre>
+                        </div>
+                    </td>
+                    <td>{{ record.timestamp }}</td>
+                    <td
+                        {% if record.priority == "low" %} class="info"
+                        {% elif record.priority == "high" %} class="danger"
+                        {% endif %}>
+                        {{ record.priority }}</td>
+                    <td
+                        {% if record.severity == "non_critical" %} class="info"
+                        {% elif record.severity == "critical" %} class="danger"
+                        {% endif %}>
+                        {{ record.severity }}</td>
+                    <td
+                        {% if record.priority == "high" or record.severity == "critical" %} class="danger"
+                        {% else %} class="info"
+                        {% endif %}>
+                        {{ record.message }}</td>
+                    <td>
+                        <a href="{{ record._links.self }}">self</a>,
+                        <a href="{{ record._links.collection }}">collection</a>
                     </td>
                 </tr>
     {% endfor %}
