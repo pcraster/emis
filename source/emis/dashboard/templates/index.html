@@ -231,6 +231,7 @@
         <h2>Event log</h2>
         <table class="table table-condensed table-striped">
             <thead>
+                <th>Id</td>
                 <th>Raw</td>
                 <th>Timestamp</td>
                 <th>Priority</td>
@@ -241,6 +242,7 @@
             <tbody>
     {% for record in logs.logs %}
                 <tr>
+                    <td>{{ record.id }}</td>
                     <td>
                         <div class="dropdown">
                             <a href="#"
@@ -266,7 +268,7 @@
                         {% if record.priority == "high" or record.severity == "critical" %} class="danger"
                         {% else %} class="info"
                         {% endif %}>
-                        {{ record.message }}</td>
+                        <pre>{{ record.message }}</pre></td>
                     <td>
                         <a href="{{ record._links.self }}">self</a>,
                         <a href="{{ record._links.collection }}">collection</a>
