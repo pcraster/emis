@@ -173,7 +173,16 @@
                     </td>
                     <td>{{ query.id }}</td>
                     <td>{{ query.user }}</td>
-                    <td>{{ query.model }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ query.model | pprint }}</pre>
+                        </div>
+                    </td>
                     <td>{{ query.edit_status }}</td>
                     <td>{{ query.execute_status }}</td>
                     <td>
