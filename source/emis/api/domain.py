@@ -9,6 +9,7 @@ from .. import uploaded_domains
 
 def domains_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_DOMAIN_HOST"],
         current_app.config["EMIS_DOMAIN_PORT"],

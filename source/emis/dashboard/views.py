@@ -5,6 +5,7 @@ from . import dashboard
 
 # def aggregate_methods_uri(
 #         route):
+#     route = route.lstrip("/")
 #     return "http://{}:{}/{}".format(
 #         current_app.config["EMIS_AGGREGATE_METHOD_HOST"],
 #         current_app.config["EMIS_AGGREGATE_METHOD_PORT"],
@@ -13,6 +14,7 @@ from . import dashboard
 
 def aggregate_queries_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_AGGREGATE_QUERY_HOST"],
         current_app.config["EMIS_AGGREGATE_QUERY_PORT"],
@@ -21,6 +23,7 @@ def aggregate_queries_uri(
 
 def domains_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_DOMAIN_HOST"],
         current_app.config["EMIS_DOMAIN_PORT"],
@@ -29,6 +32,7 @@ def domains_uri(
 
 def logs_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_LOG_HOST"],
         current_app.config["EMIS_LOG_PORT"],
@@ -37,6 +41,7 @@ def logs_uri(
 
 def properties_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_PROPERTY_HOST"],
         current_app.config["EMIS_PROPERTY_PORT"],

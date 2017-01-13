@@ -63,7 +63,7 @@ def log(
         sys.stderr.write("Error while sending log message to broker\n")
         sys.stderr.write("Log message: {}\n".format(message))
         sys.stderr.write("Error message: {}\n".format(str(exception)))
-        sys.stderr.write("{}\n".format(traceback.format_exc(exception)));
+        sys.stderr.write("{}\n".format(traceback.format_exc()))
         sys.stderr.flush()
 
 

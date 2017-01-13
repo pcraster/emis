@@ -5,6 +5,7 @@ from . import api_blueprint
 
 def properties_uri(
         route):
+    route = route.lstrip("/")
     return "http://{}:{}/{}".format(
         current_app.config["EMIS_PROPERTY_HOST"],
         current_app.config["EMIS_PROPERTY_PORT"],
