@@ -16,7 +16,7 @@
         <div class="jumbotron">
             <h1>Welcome to EMIS</h1>
             <p>
-                Here you can see and manipulate the state of the EMIS
+                Here you can see some of the state of the EMIS
                 services.
             </p>
             <!--
@@ -92,7 +92,7 @@
                         data-toggle="tooltip"
                         data-placement="auto"
                         title="{{ property.pathname }}">
-                        {{ property.pathname | format_pathname }}
+                        {{ property.pathname | format_pathname(50) }}
                     </td>
                     <td>
                         <a href="{{ property._links.self }}">self</a>,
@@ -108,6 +108,7 @@
         <table class="table table-condensed table-striped">
             <thead>
                 <th>Raw</td>
+                <th>Posted at</td>
                 <th>Name</td>
                 <th>Pathname</td>
                 <th>Links</td>
@@ -125,12 +126,13 @@
                             <pre class="dropdown-menu">{{ domain | pprint }}</pre>
                         </div>
                     </td>
+                    <td>{{ domain.posted_at | format_time_point }}</td>
                     <td>{{ domain.name }}</td>
                     <td
                         data-toggle="tooltip"
                         data-placement="auto"
                         title="{{ domain.pathname }}">
-                        {{ domain.pathname | format_pathname }}
+                        {{ domain.pathname | format_pathname(50) }}
                     </td>
                     <td>
                         <a href="{{ domain._links.self }}">self</a>,
@@ -146,6 +148,8 @@
         <table class="table table-condensed">
             <thead>
                 <th>Raw</td>
+                <th>Posted at</td>
+                <th>Patched at</td>
                 <th>Id</td>
                 <th>User</td>
                 <th>Model</td>
@@ -161,7 +165,7 @@
                     {% elif query.execute_status == "succeeded" %} class="success"
                     {% elif query.execute_status == "failed" %} class="danger"
                     {% endif %}>
-                    <td>
+                    <td><span class="text-nowrap">
                         <div class="dropdown">
                             <a href="#"
                                 data-toggle="dropdown"
@@ -170,10 +174,12 @@
                             </a>
                             <pre class="dropdown-menu">{{ query | pprint }}</pre>
                         </div>
-                    </td>
-                    <td>{{ query.id }}</td>
-                    <td>{{ query.user }}</td>
-                    <td>
+                    </span></td>
+                    <td><span class="text-nowrap">{{ query.posted_at | format_time_point }}</span></td>
+                    <td><span class="text-nowrap">{{ query.patched_at | format_time_point }}</span></td>
+                    <td><span class="text-nowrap">{{ query.id }}</span></td>
+                    <td><span class="text-nowrap">{{ query.user }}</span></td>
+                    <td><span class="text-nowrap">
                         <div class="dropdown">
                             <a href="#"
                                 data-toggle="dropdown"
@@ -182,7 +188,7 @@
                             </a>
                             <pre class="dropdown-menu">{{ query.model | pprint }}</pre>
                         </div>
-                    </td>
+                    </span></td>
                     <td>{{ query.edit_status }}</td>
                     <td>{{ query.execute_status }}</td>
                     <td>
@@ -206,7 +212,7 @@
             <tbody>
     {% for result in results.aggregate_query_results %}
                 <tr>
-                    <td>
+                    <td><span class="text-nowrap">
                         <div class="dropdown">
                             <a href="#"
                                 data-toggle="dropdown"
@@ -215,8 +221,8 @@
                             </a>
                             <pre class="dropdown-menu">{{ result | pprint }}</pre>
                         </div>
-                    </td>
-                    <td>{{ result.id }}</td>
+                    </span></td>
+                    <td><span class="text-nowrap">{{ result.id }}</span></td>
                     <td><a href="/aggregate_query_results/{{ result.uri }}">uri</a></td>
                     <td>
                         <a href="{{ result._links.self }}">self</a>,
@@ -243,7 +249,7 @@
     {% for record in logs.logs %}
                 <tr>
                     <td>{{ record.id }}</td>
-                    <td>
+                    <td><span class="text-nowrap">
                         <div class="dropdown">
                             <a href="#"
                                 data-toggle="dropdown"
@@ -252,8 +258,8 @@
                             </a>
                             <pre class="dropdown-menu">{{ record | pprint }}</pre>
                         </div>
-                    </td>
-                    <td>{{ record.timestamp }}</td>
+                    </span></td>
+                    <td><span class="text-nowrap">{{ record.timestamp | format_time_point }}</span></td>
                     <td
                         {% if record.priority == "low" %} class="info"
                         {% elif record.priority == "high" %} class="danger"

@@ -1,5 +1,5 @@
 import unittest
-from flask import current_app, json
+from flask import json
 from emis import create_app
 
 

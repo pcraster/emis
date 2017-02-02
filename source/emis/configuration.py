@@ -23,14 +23,18 @@ class Configuration:
         tempfile.gettempdir()
 
     EMIS_AGGREGATE_METHOD_HOST = "aggregate_method"
-    EMIS_AGGREGATE_QUERY_HOST = "aggregate_query"
-    EMIS_DOMAIN_HOST = "domain"
+    EMIS_AGGREGATE_QUERY_HOST = "emis_aggregate_query"
+    EMIS_DOMAIN_HOST = "emis_domain"
     EMIS_LOG_HOST = "log"
     EMIS_PROPERTY_HOST = "property"
     EMIS_SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     EMIS_RABBITMQ_DEFAULT_USER = os.environ.get("EMIS_RABBITMQ_DEFAULT_USER")
     EMIS_RABBITMQ_DEFAULT_PASS = os.environ.get("EMIS_RABBITMQ_DEFAULT_PASS")
     EMIS_RABBITMQ_DEFAULT_VHOST = os.environ.get("EMIS_RABBITMQ_DEFAULT_VHOST")
+
+    # Default period after which an unused allocated resource will
+    # be cleared, in hours.
+    EMIS_RESOURCE_EXPIRATION_PERIOD = 2.0
 
 
     @staticmethod
