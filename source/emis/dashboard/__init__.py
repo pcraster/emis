@@ -1,5 +1,5 @@
 from flask import Blueprint
-from starling.flask.template_filter import format_pathname, format_time_point
+from starling.flask.template_filter import *
 
 
 def format_property_name(
@@ -13,6 +13,7 @@ dashboard = Blueprint("dashboard", __name__,
 dashboard.add_app_template_filter(format_time_point)
 dashboard.add_app_template_filter(format_pathname)
 dashboard.add_app_template_filter(format_property_name)
+dashboard.add_app_template_filter(format_uuid)
 
 
 from . import views

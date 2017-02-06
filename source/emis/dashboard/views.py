@@ -78,6 +78,10 @@ def dashboard():
         response = requests.get(uri)
         queries = response.json()
 
+        uri = aggregate_queries_uri("aggregate_query_messages")
+        response = requests.get(uri)
+        messages = response.json()
+
         uri = aggregate_queries_uri("aggregate_query_results")
         response = requests.get(uri)
         results = response.json()
@@ -105,5 +109,6 @@ def dashboard():
         domains=domains,
         properties=properties,
         queries=queries,
+        messages=messages,
         results=results,
         logs=logs)

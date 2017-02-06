@@ -177,8 +177,8 @@
                     </span></td>
                     <td><span class="text-nowrap">{{ query.posted_at | format_time_point }}</span></td>
                     <td><span class="text-nowrap">{{ query.patched_at | format_time_point }}</span></td>
-                    <td><span class="text-nowrap">{{ query.id }}</span></td>
-                    <td><span class="text-nowrap">{{ query.user }}</span></td>
+                    <td><span class="text-nowrap">{{ query.id | format_uuid }}</span></td>
+                    <td><span class="text-nowrap">{{ query.user | format_uuid }}</span></td>
                     <td><span class="text-nowrap">
                         <div class="dropdown">
                             <a href="#"
@@ -194,6 +194,39 @@
                     <td>
                         <a href="{{ query._links.self }}">self</a>,
                         <a href="{{ query._links.collection }}">collection</a>
+                    </td>
+                </tr>
+    {% endfor %}
+            <tbody>
+        </table>
+
+
+        <h2>Aggregate query messages</h2>
+        <table class="table table-condensed table-striped">
+            <thead>
+                <th>Raw</td>
+                <th>Id</td>
+                <th>Message</td>
+                <th>Links</td>
+            </thead>
+            <tbody>
+    {% for message in messages.aggregate_query_messages %}
+                <tr>
+                    <td><span class="text-nowrap">
+                        <div class="dropdown">
+                            <a href="#"
+                                data-toggle="dropdown"
+                                class="dropdown-toggle">
+                                json <b class="caret"></b>
+                            </a>
+                            <pre class="dropdown-menu">{{ message | pprint }}</pre>
+                        </div>
+                    </span></td>
+                    <td><span class="text-nowrap">{{ message.id | format_uuid }}</span></td>
+                    <td>{{ message.message }}</td>
+                    <td>
+                        <a href="{{ message._links.self }}">self</a>,
+                        <a href="{{ message._links.collection }}">collection</a>
                     </td>
                 </tr>
     {% endfor %}
@@ -222,7 +255,7 @@
                             <pre class="dropdown-menu">{{ result | pprint }}</pre>
                         </div>
                     </span></td>
-                    <td><span class="text-nowrap">{{ result.id }}</span></td>
+                    <td><span class="text-nowrap">{{ result.id | format_uuid }}</span></td>
                     <td><a href="/aggregate_query_results/{{ result.uri }}">uri</a></td>
                     <td>
                         <a href="{{ result._links.self }}">self</a>,

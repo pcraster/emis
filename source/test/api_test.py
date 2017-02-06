@@ -34,6 +34,9 @@ class ApiTest(unittest.TestCase):
                     "aggregate_queries": {
                         "route": "/aggregate_queries"
                     },
+                    "aggregate_query_messages": {
+                        "route": "/aggregate_query_messages"
+                    },
                     "aggregate_query_results": {
                         "route": "/aggregate_query_results"
                     },
