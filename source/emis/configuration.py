@@ -22,11 +22,11 @@ class Configuration:
         os.environ.get("EMIS_RESULT_DATA") or \
         tempfile.gettempdir()
 
-    EMIS_AGGREGATE_METHOD_HOST = "aggregate_method"
+    EMIS_AGGREGATE_METHOD_HOST = "emis_aggregate_method"
     EMIS_AGGREGATE_QUERY_HOST = "emis_aggregate_query"
     EMIS_DOMAIN_HOST = "emis_domain"
-    EMIS_LOG_HOST = "log"
-    EMIS_PROPERTY_HOST = "property"
+    EMIS_LOG_HOST = "emis_log"
+    EMIS_PROPERTY_HOST = "emis_property"
     EMIS_SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     EMIS_RABBITMQ_DEFAULT_USER = os.environ.get("EMIS_RABBITMQ_DEFAULT_USER")
     EMIS_RABBITMQ_DEFAULT_PASS = os.environ.get("EMIS_RABBITMQ_DEFAULT_PASS")
@@ -40,7 +40,10 @@ class Configuration:
     @staticmethod
     def init_app(
             app):
-        pass
+
+        Configuration.EMIS_SSL_CONTEXT.load_cert_chain(
+            os.environ.get("EMIS_SSL_CERTIFICATE") or "/ssl/emis.crt",
+            os.environ.get("EMIS_SSL_KEY") or "/ssl/emis.key")
 
 
 class DevelopmentConfiguration(Configuration):
@@ -67,12 +70,12 @@ class DevelopmentConfiguration(Configuration):
         from flask_debug import Debug
         Debug(app)
 
-        DevelopmentConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
-            os.environ.get("EMIS_SSL_CERTIFICATE") or "/ssl/localhost.crt",
-            os.environ.get("EMIS_SSL_KEY") or "/ssl/localhost.key")
+        # DevelopmentConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
+        #     os.environ.get("EMIS_SSL_CERTIFICATE"), or "/ssl/emis.crt",
+        #     os.environ.get("EMIS_SSL_KEY") or "/ssl/emis.key")
 
 
-class TestingConfiguration(Configuration):
+class TestConfiguration(Configuration):
 
     TESTING = True
 
@@ -91,11 +94,11 @@ class TestingConfiguration(Configuration):
             app):
         Configuration.init_app(app)
 
-        TestingConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
-            os.environ.get("EMIS_SSL_CERTIFICATE")
-                or "/ssl/localhost.crt",
-            os.environ.get("EMIS_SSL_KEY")
-                or "/ssl/localhost.key")
+        # TestConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
+        #     os.environ.get("EMIS_SSL_CERTIFICATE"),
+        #         # or "/ssl/localhost.crt",
+        #     os.environ.get("EMIS_SSL_KEY"))
+        #         # or "/ssl/localhost.key")
 
 
 class ProductionConfiguration(Configuration):
@@ -115,15 +118,16 @@ class ProductionConfiguration(Configuration):
             app):
         Configuration.init_app(app)
 
-        ProductionConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
-            os.environ.get("EMIS_SSL_CERTIFICATE")
-                or "/ssl/emisdev_geo_uu_nl.crt",
-            os.environ.get("EMIS_SSL_KEY")
-                or "/ssl/emisdev_geo_uu_nl.key")
+        # ProductionConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
+        #     os.environ.get("EMIS_SSL_CERTIFICATE")
+        #         or "/ssl/emisdev_geo_uu_nl.crt",
+        #     os.environ.get("EMIS_SSL_KEY")
+        #         or "/ssl/emisdev_geo_uu_nl.key")
 
 
 configuration = {
     "development": DevelopmentConfiguration,
-    "testing": TestingConfiguration,
+    "test": TestConfiguration,
+    "acceptance": ProductionConfiguration,
     "production": ProductionConfiguration
 }
