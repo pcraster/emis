@@ -77,7 +77,7 @@ class DevelopmentConfiguration(Configuration):
 
 class TestConfiguration(Configuration):
 
-    TESTING = True
+    # TESTING = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_TEST_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis-test.sqlite")
