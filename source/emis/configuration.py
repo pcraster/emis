@@ -27,7 +27,6 @@ class Configuration:
     EMIS_DOMAIN_HOST = "emis_domain"
     EMIS_LOG_HOST = "emis_log"
     EMIS_PROPERTY_HOST = "emis_property"
-    EMIS_SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
     EMIS_RABBITMQ_DEFAULT_USER = os.environ.get("EMIS_RABBITMQ_DEFAULT_USER")
     EMIS_RABBITMQ_DEFAULT_PASS = os.environ.get("EMIS_RABBITMQ_DEFAULT_PASS")
     EMIS_RABBITMQ_DEFAULT_VHOST = os.environ.get("EMIS_RABBITMQ_DEFAULT_VHOST")
@@ -41,9 +40,7 @@ class Configuration:
     def init_app(
             app):
 
-        Configuration.EMIS_SSL_CONTEXT.load_cert_chain(
-            os.environ.get("EMIS_SSL_CERTIFICATE") or "/ssl/emis.crt",
-            os.environ.get("EMIS_SSL_KEY") or "/ssl/emis.key")
+        pass
 
 
 class DevelopmentConfiguration(Configuration):
@@ -70,14 +67,8 @@ class DevelopmentConfiguration(Configuration):
         from flask_debug import Debug
         Debug(app)
 
-        # DevelopmentConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
-        #     os.environ.get("EMIS_SSL_CERTIFICATE"), or "/ssl/emis.crt",
-        #     os.environ.get("EMIS_SSL_KEY") or "/ssl/emis.key")
-
 
 class TestConfiguration(Configuration):
-
-    # TESTING = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("EMIS_TEST_DATABASE_URI") or \
         "sqlite:///" + os.path.join(tempfile.gettempdir(), "emis-test.sqlite")
@@ -93,12 +84,6 @@ class TestConfiguration(Configuration):
     def init_app(
             app):
         Configuration.init_app(app)
-
-        # TestConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
-        #     os.environ.get("EMIS_SSL_CERTIFICATE"),
-        #         # or "/ssl/localhost.crt",
-        #     os.environ.get("EMIS_SSL_KEY"))
-        #         # or "/ssl/localhost.key")
 
 
 class ProductionConfiguration(Configuration):
@@ -117,12 +102,6 @@ class ProductionConfiguration(Configuration):
     def init_app(
             app):
         Configuration.init_app(app)
-
-        # ProductionConfiguration.EMIS_SSL_CONTEXT.load_cert_chain(
-        #     os.environ.get("EMIS_SSL_CERTIFICATE")
-        #         or "/ssl/emisdev_geo_uu_nl.crt",
-        #     os.environ.get("EMIS_SSL_KEY")
-        #         or "/ssl/emisdev_geo_uu_nl.key")
 
 
 configuration = {
